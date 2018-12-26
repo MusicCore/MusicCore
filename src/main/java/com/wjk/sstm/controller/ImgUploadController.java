@@ -1,9 +1,11 @@
 package com.wjk.sstm.controller;
 
+import com.wjk.sstm.model.Security;
 import com.wjk.sstm.until.Result;
 import com.wjk.sstm.until.ResultFactory;
 import com.wjk.sstm.until.StringUtils;
 import com.wjk.sstm.vo.ImgUrl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +25,9 @@ import java.io.File;
 public class ImgUploadController {
 
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(ImgUploadController.class);
+
+    @Autowired
+    Security security;
 
     @RequestMapping("/upload")
     public Result imgupload(@RequestParam MultipartFile file, HttpServletRequest request ,
@@ -50,7 +55,7 @@ public class ImgUploadController {
 
         try {
             file.transferTo(targerFile);
-            String url = "http://localhost:8080/upload/" +fileName;
+            String url = security.getDomain() +fileName;
             ImgUrl imgUrl = new ImgUrl(fileName,url,uid);
             log.info("\n-------------------Method : 上传图片over--------------------\n");
             return ResultFactory.buildSuccessResult(imgUrl);

@@ -13,6 +13,8 @@ public class Security {
     private String allowUrl;
     //    用户允许功能
     private String loginAllows;
+    //    服务器域名
+    private String domain;
 
     public String getEnable() {
         return enable;
@@ -36,5 +38,13 @@ public class Security {
 
     public void setLoginAllows(String loginAllows) {
         this.loginAllows = loginAllows;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
     }
 }
