@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wjk.sstm.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.wjk.sstm.model.User">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <result column="account" property="account" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="roles" property="roles" jdbcType="VARCHAR"/>
+        <result column="avatar" property="avatar" jdbcType="VARCHAR"/>
+        <result column="createtime" property="createtime" jdbcType="DATE"/>
+        <result column="updatetime" property="updatetime" jdbcType="DATE"/>
+        <result column="active" property="active" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectByAccountAndPwd" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT * FROM user  WHERE account = #{account, jdbcType=VARCHAR} and password = #{password, jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectIsHaveAccount" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT 1 FROM user WHERE account = #{account, jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectPwdByAccount" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT password FROM user WHERE account = #{account, jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insert" parameterType="com.wjk.sstm.model.User">
+        INSERT INTO user (id,account, password, name, roles, avatar, create_time, update_time, active)
+        VALUES   (
+        null,
+        #{account, jdbcType=VARCHAR},
+        #{password,jdbcType=VARCHAR},
+        #{name,jdbcType=VARCHAR},
+        #{roles,jdbcType=VARCHAR},
+        #{avatar,jdbcType=VARCHAR},
+        #{createtime, jdbcType=DATE},
+        #{updatetime,jdbcType=DATE},
+        #{active,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="update"  parameterType="com.wjk.sstm.model.User">
+        UPDATE user SET (
+          password = #{password,jdbcType=VARCHAR},
+          name = #{name,jdbcType=VARCHAR},
+          roles = #{roles,jdbcType=VARCHAR},
+          avatar = #{avatar,jdbcType=VARCHAR},
+          update_time = #{updatetime,jdbcType=DATE},
+          active = #{active,jdbcType=VARCHAR}
+        )WHERE account = #{account, jdbcType=VARCHAR}
+    </update>
+</mapper>
