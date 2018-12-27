@@ -30,7 +30,12 @@ public enum ResultCode {
     /**
      * 服务器内部错误
      */
-    INTERNAL_SERVER_ERROR(500);
+    INTERNAL_SERVER_ERROR(500),
+
+    /**
+     * TOKEN过期
+     */
+    TOKEN_EXPIRE(50014);
 
     public int code;
 
