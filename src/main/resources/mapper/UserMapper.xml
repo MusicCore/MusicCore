@@ -8,8 +8,8 @@
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="roles" property="roles" jdbcType="VARCHAR"/>
         <result column="avatar" property="avatar" jdbcType="VARCHAR"/>
-        <result column="createtime" property="createtime" jdbcType="DATE"/>
-        <result column="updatetime" property="updatetime" jdbcType="DATE"/>
+        <result column="create_time" property="createtime" jdbcType="DATE"/>
+        <result column="update_time" property="updatetime" jdbcType="DATE"/>
         <result column="active" property="active" jdbcType="VARCHAR"/>
     </resultMap>
 
@@ -23,6 +23,10 @@
 
     <select id="selectPwdByAccount" resultType="java.lang.String" parameterType="java.lang.String">
         SELECT password FROM user WHERE account = #{account, jdbcType=VARCHAR}
+    </select>
+
+    <select id="getUser" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT * FROM user  WHERE account = #{account, jdbcType=VARCHAR}
     </select>
 
     <insert id="insert" parameterType="com.wjk.sstm.model.User">
