@@ -37,6 +37,7 @@ public class MusicWebConfig implements WebMvcConfigurer  {
      * @param registry
      */
     public void FilterRegistry(InterceptorRegistry registry){
+        if(security.equals("Y")){
             //      数组初始化
             String []securityFilterStr = new String[]{};
 //        获取允许地址
@@ -48,5 +49,7 @@ public class MusicWebConfig implements WebMvcConfigurer  {
 //        addPathPatterns 用于添加拦截规则
 //        excludePathPatterns 用户排除拦截
             registry.addInterceptor(securityFilter).addPathPatterns("/**").excludePathPatterns(securityFilterStr);
+        }
+
    }
 }
