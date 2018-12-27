@@ -136,7 +136,7 @@ public class UserController {
      * @param user
      * @return
      */
-    public  User setUser(User user){
+    private  User setUser(User user){
         //默认系统时间
         Date date = new Date();
         user.setPassword(TFM.md5(user.getPassword()));

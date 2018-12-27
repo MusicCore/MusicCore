@@ -1,13 +1,11 @@
 package com.wjk.sstm.service.impl;
 
-import com.wjk.sstm.dto.UserContext;
 import com.wjk.sstm.dto.UserDto;
 import com.wjk.sstm.mapper.UserMapper;
 import com.wjk.sstm.model.User;
 import com.wjk.sstm.until.TFM;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
