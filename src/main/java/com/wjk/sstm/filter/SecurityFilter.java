@@ -3,6 +3,7 @@ package com.wjk.sstm.filter;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONPObject;
 import com.wjk.sstm.until.RedisUtils;
+import com.wjk.sstm.until.ResultFactory;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -33,26 +34,25 @@ public class SecurityFilter implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.info("preHandle : RequestUrl:"+request.getRequestURI());
         log.info("preHandle : RequestedSessionId:"+request.getRequestedSessionId());
-        HttpSession session = request.getSession();
-        if (session.getAttribute("loginAccount")!=null) {
-            try {
-                String loginSessionId = redisTemplate.opsForValue().get(session.getAttribute("loginAccount"));
-                if (loginSessionId != null && loginSessionId.equals(session.getId())) {
-                    log.info("-----------success login--------------");
-                    return true;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
         //新增判断vue程序来请求的时候携带token让其通过
         String token = request.getParameter("token");
-        if(token != null){
-            if(redisTemplate.opsForValue().get(token) != null) {
-                return true;
-            }else{
-                response.sendRedirect("/api/token_expire");
-                return false;
+        if(null == token) {
+            response.sendRedirect("/api/login");
+            return false;
+        }
+        if(null != redisTemplate.opsForValue().get(token)) {
+            String loginAccount = redisTemplate.opsForValue().get(token);
+            if (null != loginAccount) {
+                try {
+                    HttpSession session = request.getSession();
+                    String loginSessionId = redisTemplate.opsForValue().get(session.getAttribute("loginAccount"));
+                    if (loginSessionId != null && loginSessionId.equals(session.getId())) {
+                        log.info("-----------success login--------------");
+                        return true;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
         response.sendRedirect("/api/login");
