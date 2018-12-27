@@ -7,19 +7,24 @@ import com.wjk.sstm.mapper.UserMapper;
 import com.wjk.sstm.model.User;
 import com.wjk.sstm.service.impl.SecurityServiceImpl;
 import com.wjk.sstm.service.impl.TokenServiceImpl;
+import com.wjk.sstm.until.RedisUtils;
 import com.wjk.sstm.until.Result;
 import com.wjk.sstm.until.ResultFactory;
 import com.wjk.sstm.until.TFM;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/api")
@@ -30,6 +35,10 @@ public class UserController {
     private UserMapper userMapper;
     @Autowired
     private SecurityServiceImpl securityService;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+//    @Resource
+//    private RedisUtils redisUtils;
 
     private static Logger log = Logger.getLogger(UserController.class);
 
@@ -40,12 +49,13 @@ public class UserController {
      * @return
      */
     @PostMapping(value = "/login")
-    public Object login(User user, Model model,HttpServletRequest request){
+    public Object login(@RequestBody User user, Model model,HttpServletRequest request){
         log.info("\n-------------------Method : login--------------------\n");
         try{
             String taken = securityService.createUserContext(user.getAccount(),user.getPassword(),request);
             JSONObject object = new JSONObject();
-            object.put("taken",taken);
+            object.put("token",taken);// token
+            redisTemplate.opsForValue().set(taken,user.getAccount(),6, TimeUnit.HOURS);//以token为key，用户账号为值设置6小时过期时间
             Result result=ResultFactory.buildSuccessResult(object);
             return result;
         }catch (Exception e){
@@ -70,20 +80,27 @@ public class UserController {
     }
 
     @PostMapping(value = "/info")
-    public Object getUserInfo(){
-        log.info("\n-------------------Method : login--------------------\n");
+    public Object getUserInfo(@RequestParam String account){
+        log.info("\n-------------------Method : 取得"+account+"信息--------------------\n");
         try {
-            User user = userMapper.getUser();
+            User user = userMapper.getUser(account);
             JSONObject object = new JSONObject();
             object.put("name",user.getName());
             object.put("avatar",user.getAvatar());
-            object.put("roles",user.getRoles());
+            String [] roles = {user.getRoles()};
+            object.put("roles",roles);//返回数组格式权限
             Result result=ResultFactory.buildSuccessResult(object);
             return result;
         }catch (Exception e){
             Result result=ResultFactory.buildFailResult(e.getMessage());
             return result;
         }
+    }
+
+    @PostMapping(value = "/token_expire")
+    public Result tokenExpire() {
+        log.info("\n-------------------Method : token失效 --------------------\n");
+        return ResultFactory.buidResult(50014,"token已过期","");
     }
     /**
      * 注册
