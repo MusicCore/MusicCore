@@ -2,6 +2,7 @@ package com.wjk.sstm.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONPObject;
+import com.wjk.sstm.until.RedisUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -23,6 +25,8 @@ public class SecurityFilter implements HandlerInterceptor {
     private final static Logger log = Logger.getLogger(SecurityFilter.class);
     @Autowired
     private StringRedisTemplate redisTemplate;
+//    @Resource
+//    private RedisUtils redisUtils;
 //    在请求处理之前进行调用（Controller方法调用之前)
 //    该方法的返回值是布尔值Boolean类型的，当它返回为false 时，表示请求结束，后续的Interceptor 和Controller 都不会再执行；
     @Override
@@ -39,6 +43,16 @@ public class SecurityFilter implements HandlerInterceptor {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+        }
+        //新增判断vue程序来请求的时候携带token让其通过
+        String token = request.getParameter("token");
+        if(token != null){
+            if(redisTemplate.opsForValue().get(token) != null) {
+                return true;
+            }else{
+                response.sendRedirect("/api/token_expire");
+                return false;
             }
         }
         response.sendRedirect("/api/login");
