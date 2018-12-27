@@ -21,9 +21,9 @@ public interface UserMapper {
 
     public String selectPwdByAccount(User user);
 
-    public User checkAP(String accout,String password);
+    public User checkAP(String account,String password);
 
     public List<User> getUserlist();
 
-    public User getUser();
+    public User getUser(String account);
 }
