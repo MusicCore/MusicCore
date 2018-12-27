@@ -33,10 +33,6 @@
         SELECT password FROM user WHERE account = #{account, jdbcType=VARCHAR}
     </select>
 
-    <select id="getUser" resultMap="BaseResultMap" parameterType="java.lang.String">
-        SELECT * FROM user  WHERE account = #{account, jdbcType=VARCHAR}
-    </select>
-
     <insert id="insert" parameterType="com.wjk.sstm.model.User">
         INSERT INTO user (id,account, password, name, roles, avatar, create_time, update_time, active)
         VALUES   (

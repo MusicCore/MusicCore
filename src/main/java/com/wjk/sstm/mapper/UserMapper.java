@@ -3,6 +3,7 @@ package com.wjk.sstm.mapper;
 import com.wjk.sstm.dto.UserDto;
 import com.wjk.sstm.model.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,5 +26,5 @@ public interface UserMapper {
 
     public List<User> getUserlist();
 
-    public User getUser(String account);
+    public User getUser(@Param("account") String account, @Param("password")String password);
 }

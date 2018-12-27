@@ -80,10 +80,10 @@ public class UserController {
     }
 
     @PostMapping(value = "/info")
-    public Object getUserInfo(@RequestParam String account){
+    public Object getUserInfo(@RequestParam String account,@RequestParam String password){
         log.info("\n-------------------Method : 取得"+account+"信息--------------------\n");
         try {
-            User user = userMapper.getUser(account);
+            User user = userMapper.getUser(account,TFM.md5(password));
             JSONObject object = new JSONObject();
             object.put("name",user.getName());
             object.put("avatar",user.getAvatar());
@@ -97,6 +97,10 @@ public class UserController {
         }
     }
 
+    /**
+     * token过期处理
+     * @return
+     */
     @PostMapping(value = "/token_expire")
     public Result tokenExpire() {
         log.info("\n-------------------Method : token失效 --------------------\n");
