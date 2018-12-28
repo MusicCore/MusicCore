@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.rmi.ServerException;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -36,33 +37,13 @@ public class UserController {
     private SecurityServiceImpl securityService;
     @Autowired
     private StringRedisTemplate redisTemplate;
-//    @Resource
-//    private RedisUtils redisUtils;
 
     private static Logger log = Logger.getLogger(UserController.class);
 
     /**
-     * 登入
-     * @param user
-     * @param model
+     * 查看用户信息(全)
      * @return
      */
-    @PostMapping(value = "/login")
-    public Object login(@RequestBody User user, Model model,HttpServletRequest request){
-        log.info("\n-------------------Method : login--------------------\n");
-        try{
-            //账号密码认证成功之后创建用户令牌时间为20分钟。并存入redis里
-            String taken = securityService.createUserContext(user.getAccount(),user.getPassword(),request);
-//            createUserContext里已经存了taken了
-//            redisTemplate.opsForValue().set(taken,user.getAccount(),6, TimeUnit.HOURS);//以token为key，用户账号为值设置6小时过期时间
-            Result result=ResultFactory.buildSuccessResult(taken);
-            return result;
-        }catch (Exception e){
-            log.debug(e.getMessage());
-            Result result=ResultFactory.buildFailResult(e.getMessage());
-            return result;
-        }
-    }
     @PostMapping(value = "/userlist")
     public Object getUserList(){
         log.info("\n-------------------Method : login--------------------\n");
@@ -73,16 +54,21 @@ public class UserController {
             Result result=ResultFactory.buildSuccessResult(object);
             return result;
         }catch (Exception e){
+            log.debug(e.getMessage());
             Result result=ResultFactory.buildFailResult(e.getMessage());
             return result;
         }
     }
-
+    /**
+     * 拉取用户信息
+     * @param account
+     * @return
+     */
     @PostMapping(value = "/info")
-    public Object getUserInfo(@RequestParam String account,@RequestParam String password){
+    public Object getUserInfo(@RequestParam String account){
         log.info("\n-------------------Method : 取得"+account+"信息--------------------\n");
         try {
-            User user = userMapper.getUser(account,TFM.md5(password));
+            User user = userMapper.getUser(account);
             JSONObject object = new JSONObject();
             object.put("name",user.getName());
             object.put("avatar",user.getAvatar());
@@ -91,19 +77,10 @@ public class UserController {
             Result result=ResultFactory.buildSuccessResult(object);
             return result;
         }catch (Exception e){
+            log.debug(e.getMessage());
             Result result=ResultFactory.buildFailResult(e.getMessage());
             return result;
         }
-    }
-
-    /**
-     * token过期处理
-     * @return
-     */
-    @PostMapping(value = "/token_expire")
-    public Result tokenExpire() {
-        log.info("\n-------------------Method : token失效 --------------------\n");
-        return ResultFactory.buidResult(50014,"token已过期","");
     }
     /**
      * 注册
@@ -126,10 +103,34 @@ public class UserController {
                 Result result=ResultFactory.buildFailResult("注册成功");
                 return result;
             }catch (Exception e1){
+                log.debug(e1.getMessage());
                 Result result=ResultFactory.buildFailResult(e1.getMessage());
                 return result;
             }
         }
+    }
+    /**
+     * 修改密码
+     * @return
+     */
+    @PostMapping(value = "/updatePwd")
+    public Result updatePassword(@RequestBody UserDto userDto){
+        log.info("\n-------------------Method : getLostPassword--------------------\n");
+        try{
+            String oldPwd  = TFM.md5(userDto.getOldPassword());
+            User user = userMapper.checkByAccountAndPwd(userDto.getAccount(),oldPwd);
+            if (null != user){
+                String newPwd = TFM.md5(userDto.getNewPassword());
+                user.setPassword(newPwd);
+                userMapper.update(user);
+            }
+            securityService.deleteToken(userDto.getToken());
+        }catch (ServerException se){
+//            在命令行打印异常信息在程序中出错的位置及原因            se.printStackTrace();
+            log.debug(se.getMessage());
+            return ResultFactory.buildFailResult("修改密码失败");
+        }
+        return ResultFactory.buildSuccessResult("修改密码成功，请重新登入");
     }
     /**
      * User 数据装填

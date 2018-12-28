@@ -9,6 +9,8 @@ public class UserDto {
     private Integer id;
     private String account;
     private String password;
+    private String oldPassword;
+    private String newPassword;
     private String name;
     private String roles;
     private String avatar;

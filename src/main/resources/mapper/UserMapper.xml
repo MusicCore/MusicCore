@@ -18,11 +18,11 @@
     </select>
 
     <select id="getUser" resultMap="BaseResultMap" parameterType="java.lang.String">
-        SELECT * FROM user  WHERE account = #{account, jdbcType=VARCHAR} and password = #{password, jdbcType=VARCHAR}
+        SELECT * FROM user  WHERE account = #{account, jdbcType=VARCHAR}
     </select>
 
     <select id="getUserlist" resultMap="BaseResultMap" parameterType="java.lang.String">
-        SELECT * FROM user  WHERE account = #{account, jdbcType=VARCHAR} and password = #{password, jdbcType=VARCHAR}
+        SELECT * FROM user
     </select>
 
     <select id="selectIsHaveAccount" resultType="java.lang.Integer" parameterType="java.lang.String">

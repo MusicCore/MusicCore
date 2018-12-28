@@ -6,25 +6,28 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.rmi.ServerException;
 import java.util.List;
 
 @Repository
 @Mapper
 public interface UserMapper {
 
-    public User selectByAccountAndPwd(User user);
+    public User selectByAccountAndPwd(User user) throws ServerException;
 
-    public int insert(User user);
+    public User checkByAccountAndPwd(String account,String password) throws ServerException;
 
-    public int update(User user);
+    public int insert(User user) throws ServerException;
 
-    public int selectIsHaveAccount(User user);
+    public int update(User user) throws ServerException;
 
-    public String selectPwdByAccount(User user);
+    public int selectIsHaveAccount(User user) throws ServerException;
 
-    public User checkAP(String account,String password);
+    public String selectPwdByAccount(User user) throws ServerException;
 
-    public List<User> getUserlist();
+    public User checkAP(String account,String password) throws ServerException;
 
-    public User getUser(@Param("account") String account, @Param("password")String password);
+    public List<User> getUserlist() throws ServerException;
+
+    public User getUser(@Param("account") String account) throws ServerException;
 }

@@ -30,7 +30,6 @@ public class SecurityServiceImpl {
         User dto =  userMapper.selectByAccountAndPwd(user);
         checkAuth(dto);
         HttpSession session = request.getSession();
-        session.setAttribute("loginAccount", account);
         String userAgent = request.getHeader("user-agent");
         String token = tokenService.generateToken(userAgent,account);
         tokenService.saveToken(account,token,session);
@@ -44,5 +43,9 @@ public class SecurityServiceImpl {
         // 判断是否有登陆权限
         if (dto == null)
             throw new Exception("用户名、密码不正确");
+    }
+
+    public void deleteToken(String key){
+        tokenService.removeToken(key);
     }
 }

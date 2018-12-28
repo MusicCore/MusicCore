@@ -66,5 +66,11 @@ public class TokenServiceImpl {
         }
     }
 
+    public void removeToken(String key){
+        Object sk = redisUtil.get(key);
+        redisUtil.delete(key);
+        redisUtil.delete(sk.toString());
+    }
+
 
 }
