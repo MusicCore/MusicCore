@@ -37,7 +37,7 @@ public class MusicWebConfig implements WebMvcConfigurer  {
      * @param registry
      */
     public void FilterRegistry(InterceptorRegistry registry){
-        if(security.equals("Y")){
+        if(security.getEnable().equals("Y")){
             //      数组初始化
             String []securityFilterStr = new String[]{};
 //        获取允许地址
