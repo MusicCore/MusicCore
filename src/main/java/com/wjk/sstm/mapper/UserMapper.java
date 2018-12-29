@@ -27,7 +27,7 @@ public interface UserMapper {
 
     public User checkAP(String account,String password) throws ServerException;
 
-    public List<User> getUserlist() throws ServerException;
+    public List<User> getUserlist(Integer stratRow,Integer endRow) throws ServerException;
 
     public User getUser(@Param("account") String account) throws ServerException;
 }

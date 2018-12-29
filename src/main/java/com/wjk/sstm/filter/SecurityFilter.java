@@ -32,9 +32,11 @@ public class SecurityFilter implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.info("preHandle : RequestUrl:"+request.getRequestURI());
-//        log.info("preHandle : RequestedSessionId:"+request.getRequestedSessionId());
-        //新增判断vue程序来请求的时候携带token让其通过
-        String token = request.getParameter("token");
+//        log.info("preHandle : RequestedSessionId:"+request.getServletPath());
+//        新增判断vue程序来请求的时候携带token让其通过
+//        获取请求头里面的taken
+        String token = request.getHeader("X-Token");
+//        String token = request.getParameter("token");
         if(token != null){
             if(redisTemplate.opsForValue().get(token) != null) {
                 return true;
@@ -43,6 +45,8 @@ public class SecurityFilter implements HandlerInterceptor {
                 return false;
             }
         }
+//        response.sendRedirect("/api/login");
+        return false;
 //        HttpSession session = request.getSession();
 //        if (session.getAttribute("loginAccount")!=null) {
 //            try {
@@ -55,8 +59,6 @@ public class SecurityFilter implements HandlerInterceptor {
 //                e.printStackTrace();
 //            }
 //        }
-        response.sendRedirect("/api/login");
-        return false;
     }
 
     //    该方法将在请求处理之后，也就是在Controller 方法调用之后被调用，但是会在视图返回被渲染之前被调用

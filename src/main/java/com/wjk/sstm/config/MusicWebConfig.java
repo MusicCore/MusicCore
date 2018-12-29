@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import java.security.PublicKey;
 
-@Configuration
+//@Configuration
 public class MusicWebConfig implements WebMvcConfigurer  {
     @Autowired
     SecurityFilter securityFilter;

@@ -44,11 +44,12 @@ public class UserController {
      * 查看用户信息(全)
      * @return
      */
-    @PostMapping(value = "/userlist")
-    public Object getUserList(){
+    @GetMapping(value = "/userlist")
+    public Object getUserList(@RequestParam Integer pageSize,@RequestParam Integer currentPage){
         log.info("\n-------------------Method : login--------------------\n");
         try {
-            List<User> list = userMapper.getUserlist();
+            Integer stratRow = pageSize*(currentPage-1);
+            List<User> list = userMapper.getUserlist(stratRow,pageSize);
             JSONObject object = new JSONObject();
             object.put("items",list);
             Result result=ResultFactory.buildSuccessResult(object);

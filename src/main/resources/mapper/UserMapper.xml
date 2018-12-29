@@ -12,27 +12,46 @@
         <result column="update_time" property="updatetime" jdbcType="DATE"/>
         <result column="active" property="active" jdbcType="VARCHAR"/>
     </resultMap>
-
+    <!--验证账号-->
     <select id="selectByAccountAndPwd" resultMap="BaseResultMap" parameterType="java.lang.String">
         SELECT * FROM user  WHERE account = #{account, jdbcType=VARCHAR} and password = #{password, jdbcType=VARCHAR}
     </select>
-
+    <!--根据账号拉取用户信息-->
     <select id="getUser" resultMap="BaseResultMap" parameterType="java.lang.String">
         SELECT * FROM user  WHERE account = #{account, jdbcType=VARCHAR}
     </select>
-
-    <select id="getUserlist" resultMap="BaseResultMap" parameterType="java.lang.String">
-        SELECT * FROM user
+    <!--分页查询-->
+    <select id="getUserlist" resultMap="BaseResultMap" >
+        SELECT * FROM user  limit #{arg0},#{arg1}
     </select>
-
+    <!--带条件的分页查询-->
+    <select id="getUserlistByif" resultMap="BaseResultMap" parameterType="hashMap">
+        SELECT * FROM user
+        <where>
+            <if test="account!=null">
+                and account = #{account}
+            </if>
+            <if test="name!=null">
+                and name = #{name}
+            </if>
+            <if test="roles!=null">
+                and roles = #{roles}
+            </if>
+            <if test="active!=null">
+                and active = #{active}
+            </if>
+        </where>
+          limit #{stratRow},#{endRow}
+    </select>
+    <!--账号是否重复-->
     <select id="selectIsHaveAccount" resultType="java.lang.Integer" parameterType="java.lang.String">
         SELECT 1 FROM user WHERE account = #{account, jdbcType=VARCHAR}
     </select>
-
+    <!--根据账号找回密码-->
     <select id="selectPwdByAccount" resultType="java.lang.String" parameterType="java.lang.String">
         SELECT password FROM user WHERE account = #{account, jdbcType=VARCHAR}
     </select>
-
+    <!--插入用户信息-->
     <insert id="insert" parameterType="com.wjk.sstm.model.User">
         INSERT INTO user (id,account, password, name, roles, avatar, create_time, update_time, active)
         VALUES   (
@@ -47,7 +66,7 @@
         #{active,jdbcType=VARCHAR}
         )
     </insert>
-
+    <!--更新用户信息-->
     <update id="update"  parameterType="com.wjk.sstm.model.User">
         UPDATE user SET (
           password = #{password,jdbcType=VARCHAR},

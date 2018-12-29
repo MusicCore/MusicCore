@@ -59,10 +59,10 @@ public class TokenServiceImpl {
         if (token.startsWith("token:PC")){
             //电脑端生成令牌过期时间为20分钟
             redisUtil.set(token,key,20,TimeUnit.MINUTES);
-            redisUtil.set(key,session,20,TimeUnit.MINUTES);
+//            redisUtil.set(key,session,20,TimeUnit.MINUTES);
         }else{
             redisUtil.set(token,key);
-            redisUtil.set(key,session);
+//            redisUtil.set(key,session);
         }
     }
 

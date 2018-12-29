@@ -62,10 +62,11 @@ public class LoginController {
      * @param taken
      * @return
      */
-    @RequestMapping(value = "/loginOut")
-    public Result loginOut(String taken){
+    @RequestMapping(value = "/logout")
+    public Result loginOut(HttpServletRequest request){
         log.info("\n-------------------Method : login--------------------\n");
-        securityService.deleteToken(taken);
-        return ResultFactory.buidResult(50000,"您已登出","");
+        String token = request.getHeader("X-Token");
+        securityService.deleteToken(token);
+        return ResultFactory.buidResult(200,"您已登出","");
     }
 }
