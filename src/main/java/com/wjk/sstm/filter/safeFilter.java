@@ -1,6 +1,5 @@
 package com.wjk.sstm.filter;
 
-import com.wjk.sstm.model.safeList;
 import org.springframework.beans.factory.annotation.Autowired;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -12,8 +11,7 @@ import java.io.IOException;
 //过滤器配置
 
 public class safeFilter implements Filter {
-    @Autowired
-    private safeList list;
+
 //    实现filterchain的dofilter方法里面存在这种机制，把自身接收到的请求request对象和response对象和自身对象即filterchain
 //
 //    作为下一个过滤器的dofilter的三个形参传递过去，这样才能使得过滤器传递下去，当然这个方法中还存在一些判断if等机制
@@ -26,9 +24,8 @@ public class safeFilter implements Filter {
 
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper((HttpServletResponse) res);
         HttpServletRequest request = (HttpServletRequest) req;
-        if(request.getRequestURI().indexOf("/music") != -1 ||
-                request.getRequestURI().indexOf("/api") != -1
-        ) {
+        if(request.getRequestURI().indexOf("/music") != -1 || request.getRequestURI().indexOf("/api") != -1) {
+            System.out.println("-----------------doFilter--------------");
             Chain.doFilter(req, res);
         }else {
             wrapper.sendRedirect("/login");
