@@ -1,5 +1,7 @@
 package com.wjk.sstm.filter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +14,7 @@ import java.io.IOException;
 
 public class safeFilter implements Filter {
 
+    private final static Logger log = LoggerFactory.getLogger(SecurityFilter.class);
 //    实现filterchain的dofilter方法里面存在这种机制，把自身接收到的请求request对象和response对象和自身对象即filterchain
 //
 //    作为下一个过滤器的dofilter的三个形参传递过去，这样才能使得过滤器传递下去，当然这个方法中还存在一些判断if等机制
@@ -21,9 +24,9 @@ public class safeFilter implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain Chain) throws IOException, ServletException{
 //        过滤前
-
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper((HttpServletResponse) res);
         HttpServletRequest request = (HttpServletRequest) req;
+        log.info("doFilter: requrl : "+request.getRequestURI());
         if(request.getRequestURI().indexOf("/music") != -1 || request.getRequestURI().indexOf("/api") != -1) {
             System.out.println("-----------------doFilter--------------");
             Chain.doFilter(req, res);

@@ -5,26 +5,19 @@ import com.wjk.sstm.dto.UserDto;
 import com.wjk.sstm.mapper.UserMapper;
 import com.wjk.sstm.model.User;
 import com.wjk.sstm.service.impl.SecurityServiceImpl;
-import com.wjk.sstm.service.impl.TokenServiceImpl;
-import com.wjk.sstm.until.RedisUtils;
+import com.wjk.sstm.service.testService;
 import com.wjk.sstm.until.Result;
 import com.wjk.sstm.until.ResultFactory;
 import com.wjk.sstm.until.TFM;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.rmi.ServerException;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+
 
 @RestController
 @RequestMapping("/api")
@@ -36,9 +29,9 @@ public class UserController {
     @Autowired
     private SecurityServiceImpl securityService;
     @Autowired
-    private StringRedisTemplate redisTemplate;
+    private testService testService;
 
-    private static Logger log = Logger.getLogger(UserController.class);
+    private final static Logger log = LoggerFactory.getLogger(UserController.class);
 
     /**
      * 查看用户信息(全)
@@ -100,7 +93,8 @@ public class UserController {
         }catch (Exception e){
             try {
                 setUser(user);
-                userMapper.insert(user);
+                testService.insertUser(user);
+//                userMapper.insert(user);
                 Result result=ResultFactory.buildFailResult("注册成功");
                 return result;
             }catch (Exception e1){
@@ -126,7 +120,7 @@ public class UserController {
                 userMapper.update(user);
             }
             securityService.deleteToken(userDto.getToken());
-        }catch (ServerException se){
+        }catch (Exception se){
 //            在命令行打印异常信息在程序中出错的位置及原因            se.printStackTrace();
             log.debug(se.getMessage());
             return ResultFactory.buildFailResult("修改密码失败");

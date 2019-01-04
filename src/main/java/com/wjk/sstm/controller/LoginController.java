@@ -5,7 +5,8 @@ import com.wjk.sstm.model.User;
 import com.wjk.sstm.service.impl.SecurityServiceImpl;
 import com.wjk.sstm.until.Result;
 import com.wjk.sstm.until.ResultFactory;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * 登入登出控制器
+ */
 @RestController
 @RequestMapping(value = "/api")
 public class LoginController {
@@ -22,7 +26,7 @@ public class LoginController {
     @Autowired
     private SecurityServiceImpl securityService;
 
-    private static Logger log = Logger.getLogger(LoginController.class);
+    private final static Logger log = LoggerFactory.getLogger(LoginController.class);
 
     /**
      * 登入

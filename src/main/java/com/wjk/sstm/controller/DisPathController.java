@@ -11,30 +11,20 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
-@RequestMapping("/api")
 public class DisPathController {
-    /**
-     *
-     * 登入跳转
-     * @return
-     */
-    @GetMapping(value = "/login")
-    public ModelAndView goLogin(Model model){
-        return (new ModelAndView("login"));
-    }
+
     /**
      * 注册页面页面跳转
      * @param model
      * @return
      */
-    @GetMapping(value = "/register")
+    @GetMapping(value = "/api/register")
     public ModelAndView goRegister(Model model){ return (new ModelAndView("register"));}
-    /**
-     * 密码找回页面跳转
-     * @param model
-     * @return
-     */
-    @GetMapping(value = "/forget")
-    public ModelAndView goForget(Model model){ return (new ModelAndView("forget"));}
+
+    @GetMapping(value = "/music/index")
+    public String goIndex(){ return "index.html";}
+
+    @GetMapping(value = "/music/musiclist")
+    public String goMsusiclist(){ return "musiclist.html";}
 
 }

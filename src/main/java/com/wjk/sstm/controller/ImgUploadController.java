@@ -1,10 +1,13 @@
 package com.wjk.sstm.controller;
 
+import com.wjk.sstm.filter.SecurityFilter;
 import com.wjk.sstm.model.Security;
 import com.wjk.sstm.until.Result;
 import com.wjk.sstm.until.ResultFactory;
 import com.wjk.sstm.until.StringUtils;
 import com.wjk.sstm.vo.ImgUrl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +27,7 @@ import java.io.File;
 @RequestMapping("/api")
 public class ImgUploadController {
 
-    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(ImgUploadController.class);
+    private final static Logger log = LoggerFactory.getLogger(ImgUploadController.class);
 
     @Autowired
     Security security;
