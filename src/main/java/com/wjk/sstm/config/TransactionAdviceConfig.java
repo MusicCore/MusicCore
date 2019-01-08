@@ -39,7 +39,7 @@ public class TransactionAdviceConfig {
         NameMatchTransactionAttributeSource source=new NameMatchTransactionAttributeSource();
 //        只读事务
         RuleBasedTransactionAttribute readOnlyRule=new RuleBasedTransactionAttribute();
-        /*设置当前事务是否为只读事务，true为只读*/
+        /*设置当前事务是否为只读事务，true为只读*z/
         readOnlyRule.setReadOnly(true);
         /* transactiondefinition 定义事务的隔离级别；
          * PROPAGATION_NOT_SUPPORTED事务传播级别5，以非事务运行，如果当前存在事务，则把当前事务挂起*/
