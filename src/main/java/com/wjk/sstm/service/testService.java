@@ -7,6 +7,6 @@ import java.rmi.ServerException;
 
 public interface testService {
 
-    @Transactional(rollbackFor = Exception.class)
+//    @Transactional(rollbackFor = Exception.class)
     public int insertUser(User user) throws Exception;
 }

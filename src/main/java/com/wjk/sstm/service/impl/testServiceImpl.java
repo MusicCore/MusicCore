@@ -16,12 +16,8 @@ public class testServiceImpl implements testService {
 //    @Transactional(rollbackFor = Exception.class)
     public int insertUser(User user)throws Exception {
 
-        try{
-            userMapper.insert(user);
-        }catch (Exception e){
-
-        }
-            return 0;
+        userMapper.insert(user);
+        return 0;
 //        throw new Exception("通讯录分组id不存在");
     }
 }
