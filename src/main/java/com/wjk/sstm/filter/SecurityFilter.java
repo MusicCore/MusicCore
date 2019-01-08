@@ -28,6 +28,7 @@ public class SecurityFilter implements HandlerInterceptor {
 //        获取请求头里面的taken
         String token = request.getHeader("X-Token");
         if(token != null){
+            System.out.println(redisTemplate.opsForValue().get(token));
             if(redisTemplate.opsForValue().get(token) != null) {
                 return true;
             }else{
