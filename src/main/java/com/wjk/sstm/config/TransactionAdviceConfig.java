@@ -16,7 +16,7 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 /**
  * 全局
  * Aop
- * 事务配置
+ * 事务配置PlatformTransactionManager
  */
 @Aspect
 @Configuration
@@ -49,9 +49,8 @@ public class TransactionAdviceConfig {
         source.addTransactionalMethod("send*", tx_REQUIRED);
         source.addTransactionalMethod("process*", tx_REQUIRED);
         source.addTransactionalMethod("complete*", tx_REQUIRED);
-
 //        只读
-//        source.addTransactionalMethod("insert*", txAttr_REQUIRED_READONLY);
+        source.addTransactionalMethod("insert*", txAttr_REQUIRED_READONLY);
         source.addTransactionalMethod("get*", txAttr_REQUIRED_READONLY);
         source.addTransactionalMethod("query*", txAttr_REQUIRED_READONLY);
         source.addTransactionalMethod("find*", txAttr_REQUIRED_READONLY);

@@ -13,9 +13,15 @@ public class testServiceImpl implements testService {
     private UserMapper userMapper;
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+//    @Transactional(rollbackFor = Exception.class)
     public int insertUser(User user)throws Exception {
-        userMapper.insert(user);
-        throw new Exception("通讯录分组id不存在");
+
+        try{
+            userMapper.insert(user);
+        }catch (Exception e){
+
+        }
+            return 0;
+//        throw new Exception("通讯录分组id不存在");
     }
 }
