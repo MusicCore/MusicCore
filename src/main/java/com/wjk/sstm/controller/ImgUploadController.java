@@ -58,7 +58,7 @@ public class ImgUploadController {
 
         try {
             file.transferTo(targerFile);
-            String url = security.getDomain() + "img"+ File.separator +fileName;
+            String url = security.getDomain() + "img/" +fileName;
             ImgUrl imgUrl = new ImgUrl(fileName,url,uid);
             log.info("\n-------------------Method : 上传图片over--------------------\n");
             return ResultFactory.buildSuccessResult(imgUrl);
@@ -90,7 +90,7 @@ public class ImgUploadController {
 
         try {
             file.transferTo(targerFile);
-            String url = security.getDomain() + "music" + File.separator + fileName;
+            String url = security.getDomain() + "music/"+ fileName;
             ImgUrl imgUrl = new ImgUrl(fileName,url,uid);
             log.info("\n-------------------Method : 上传音乐over--------------------\n");
             return ResultFactory.buildSuccessResult(imgUrl);
