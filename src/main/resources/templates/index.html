@@ -1,27 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
-<head>
-    <script th:src="@{/static/js/jquery-2.1.1.js}"></script>
-    <script th:src="@{/static/js/bootstrap.min.js}"></script>
-    <link th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet" />
+<meta charset="UTF-8">
+    <title>music.title</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" >
-    <!--<script type="text/javascript" th:inline="javascript">-->
-        <!--/*<![CDATA[*/-->
-        <!--(function () {-->
-           <!--var w = window.screen.width;-->
-           <!--var targetw = 320;-->
-           <!--var scale   = w/targetw;-->
-           <!--var meta    = document.createElement("meta");-->
-           <!--meta.name="viewport";-->
-               <!--meta.content = "user-scalable = no,initial-scale="+scale+",minimum-scale="+scale+",maximum-scale="+scale+"";-->
-           <!--document.head.appendChild(meta);-->
-           <!--console.log(scale);-->
-        <!--})();-->
-        <!--/*]]>*/-->
-    <!--</script>-->
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title>首页</title>
 </head>
 <body>
@@ -34,118 +24,22 @@
                 </div>
 
                 <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
-                    <!--<ul class="nav navbar-nav">-->
-                        <!--<li class="active">-->
-                            <!--<a href="#">谱子</a>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                            <!--<a href="#">xxx</a>-->
-                        <!--</li>-->
-                        <!--<li class="dropdown">-->
-                            <!--<a class="dropdown-toggle" href="#" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>-->
-                            <!--<ul class="dropdown-menu">-->
-                                <!--<li>-->
-                                    <!--<a href="#">Action</a>-->
-                                <!--</li>-->
-                                <!--<li>-->
-                                    <!--<a href="#">Another action</a>-->
-                                <!--</li>-->
-                                <!--<li>-->
-                                    <!--<a href="#">Something else here</a>-->
-                                <!--</li>-->
-                                <!--<li class="divider">-->
-                                <!--</li>-->
-                                <!--<li>-->
-                                    <!--<a href="#">Separated link</a>-->
-                                <!--</li>-->
-                                <!--<li class="divider">-->
-                                <!--</li>-->
-                                <!--<li>-->
-                                    <!--<a href="#">One more separated link</a>-->
-                                <!--</li>-->
-                            <!--</ul>-->
-                        <!--</li>-->
-                    <!--</ul>-->
                     <form class="navbar-form navbar-left" role="search">
                         <div class="form-group">
                             <input class="form-control" type="text" />
                         </div> <button class="btn btn-default" type="submit">搜索</button>
                     </form>
                     <ul class="nav navbar-nav navbar-right">
-                        <!--<li>-->
-                            <!--<a href="#">谱子</a>-->
-                        <!--</li>-->
-                        <!--<li class="dropdown">-->
-                            <!--<a class="dropdown-toggle" href="#" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>-->
-                            <!--<ul class="dropdown-menu">-->
-                                <!--<li>-->
-                                    <!--<a href="#">Action</a>-->
-                                <!--</li>-->
-                                <!--<li>-->
-                                    <!--<a href="#">Another action</a>-->
-                                <!--</li>-->
-                                <!--<li>-->
-                                    <!--<a href="#">Something else here</a>-->
-                                <!--</li>-->
-                                <!--<li class="divider">-->
-                                <!--</li>-->
-                                <!--<li>-->
-                                    <!--<a href="#">Separated link</a>-->
-                                <!--</li>-->
-                            <!--</ul>-->
-                        <!--</li>-->
                     </ul>
                 </div>
-
             </nav>
             <div class="jumbotron">
-                <!--<h1>-->
-                    <!--不知道放什么好-->
-                <!--</h1>-->
                 <p>
                     放个背景图吧
                 </p>
-                <!--<p>-->
-                    <!--<a class="btn btn-primary btn-large" href="#">Learn more</a>-->
-                <!--</p>-->
             </div>
         </div>
     </div>
-    <!--<div class="row clearfix">-->
-        <!--<div class="col-md-4 column">-->
-            <!--<h2>-->
-                <!--不知道放什么好-->
-            <!--</h2>-->
-            <!--<p>-->
-                <!--不知道放什么好-->
-            <!--</p>-->
-            <!--<p>-->
-                <!--<a class="btn" href="#">链接 »</a>-->
-            <!--</p>-->
-        <!--</div>-->
-        <!--<div class="col-md-4 column">-->
-            <!--<h2>-->
-                <!--不知道放什么好-->
-            <!--</h2>-->
-            <!--<p>-->
-                <!--不知道放什么好-->
-            <!--</p>-->
-            <!--<p>-->
-                <!--<a class="btn" href="#">View details »</a>-->
-            <!--</p>-->
-        <!--</div>-->
-        <!--<div class="col-md-4 column">-->
-            <!--<h2>-->
-                <!--不知道放什么好-->
-            <!--</h2>-->
-            <!--<p>-->
-                <!--不知道放什么好-->
-            <!--</p>-->
-            <!--<p>-->
-                <!--<a class="btn" href="#">View details »</a>-->
-            <!--</p>-->
-        <!--</div>-->
-    <!--</div>-->
     <div class="row clearfix">
         <div class="col-md-12 column">
             <div class="row">
@@ -153,9 +47,6 @@
                     <div class="thumbnail">
                         <img class="img-responsive"  alt="300x200" src="v3/default4.jpg" />
                         <div class="caption">
-                            <!--<h3>-->
-                                <!--Thumbnail label-->
-                            <!--</h3>-->
                             <p>
                                 上面图片中间描述下面链接
                             <p>
@@ -168,9 +59,6 @@
                     <div class="thumbnail">
                         <img alt="300x200" src="v3/default5.jpg" />
                         <div class="caption">
-                            <!--<h3>-->
-                                <!--Thumbnail label-->
-                            <!--</h3>-->
                             <p>
                                 上面图片中间描述下面链接
                             </p>

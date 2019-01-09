@@ -24,7 +24,12 @@ public class DisPathController {
     @GetMapping(value = "/music/index")
     public String goIndex(){ return "index.html";}
 
-    @GetMapping(value = "/music/musiclist")
-    public String goMsusiclist(){ return "musiclist.html";}
+
+    @GetMapping(value = "/music/musicserch")
+    public String goMsusicserch(){ return "musicserch.html";}
+
+
+    @GetMapping(value = "/music/musicdetail")
+    public String goMusicdetail(){ return "musicdetail.html";}
 
 }

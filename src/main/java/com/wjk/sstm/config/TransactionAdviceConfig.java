@@ -56,11 +56,10 @@ public class TransactionAdviceConfig {
         Map<String,TransactionAttribute> txMap=new HashMap<>();
         txMap.put("add*",requireRule);
         txMap.put("save*", requireRule);
-        txMap.put("insert*",readOnlyRule);
+        txMap.put("insert*",requireRule);
         txMap.put("update*",requireRule);
         txMap.put("delete*",requireRule);
         txMap.put("remove*",requireRule);
-
         txMap.put("get*",readOnlyRule);
         txMap.put("query*", readOnlyRule);
         txMap.put("find*", readOnlyRule);
