@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * 登入登出控制器
+ * wjk
  */
 @RestController
 @RequestMapping(value = "/api")
@@ -63,7 +64,7 @@ public class LoginController {
     }
     /**
      * 登出
-     * @param taken
+     * @param
      * @return
      */
     @RequestMapping(value = "/logout")

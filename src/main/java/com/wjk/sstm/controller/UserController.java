@@ -18,6 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 用户功能
+ * wjk
+ */
 
 @RestController
 @RequestMapping("/api")

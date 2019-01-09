@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-
+/**
+ * 页面跳转
+ * wjk
+ */
 @Controller
 public class DisPathController {
 
