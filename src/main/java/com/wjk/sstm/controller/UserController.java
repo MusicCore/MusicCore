@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.wjk.sstm.dto.UserDto;
 import com.wjk.sstm.mapper.UserMapper;
 import com.wjk.sstm.model.User;
+import com.wjk.sstm.service.UserService;
 import com.wjk.sstm.service.impl.SecurityServiceImpl;
-import com.wjk.sstm.service.testService;
 import com.wjk.sstm.until.Result;
 import com.wjk.sstm.until.ResultFactory;
 import com.wjk.sstm.until.TFM;
@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
@@ -27,13 +29,11 @@ import java.util.List;
 @RequestMapping("/api")
 //@RestController包含了@ResponseBody故返回的都是json类型的值，不会跳转jsp页面
 public class UserController {
-
-    @Autowired
-    private UserMapper userMapper;
     @Autowired
     private SecurityServiceImpl securityService;
-    @Autowired
-    private testService testService;
+
+    @Resource(name = "userService")
+    private UserService userService;
 
     private final static Logger log = LoggerFactory.getLogger(UserController.class);
 
@@ -41,12 +41,12 @@ public class UserController {
      * 查看用户信息(全)
      * @return
      */
-    @GetMapping(value = "/userlist")
+    @PostMapping(value = "/userlist")
     public Object getUserList(@RequestParam Integer pageSize,@RequestParam Integer currentPage){
         log.info("\n-------------------Method : login--------------------\n");
         try {
             Integer stratRow = pageSize*(currentPage-1);
-            List<User> list = userMapper.getUserlist(stratRow,pageSize);
+            List<User> list = userService.listUserbyAll(stratRow,pageSize);
             JSONObject object = new JSONObject();
             object.put("items",list);
             Result result=ResultFactory.buildSuccessResult(object);
@@ -66,7 +66,7 @@ public class UserController {
     public Object getUserInfo(@RequestParam String account){
         log.info("\n-------------------Method : 取得"+account+"信息--------------------\n");
         try {
-            User user = userMapper.getUser(account);
+            User user = userService.listUserbyAccount(account);
             JSONObject object = new JSONObject();
             object.put("name",user.getName());
             object.put("avatar",user.getAvatar());
@@ -83,21 +83,21 @@ public class UserController {
     /**
      * 注册
      * @param user
-     * @param model
+     * @param
      * @param request
      * @return
      */
     @PostMapping(value = "/register")
-    public Object register(User user,Model model,HttpServletRequest request){
+    public Object register(User user,HttpServletRequest request){
         log.info("\n-------------------Method : register--------------------\n");
         try {
-            userMapper.selectIsHaveAccount(user);
+            userService.checkIsHaveAccount(user);
             Result result=ResultFactory.buildFailResult("账号已存在");
             return result;
         }catch (Exception e){
             try {
                 setUser(user);
-                testService.insertUser(user);
+                userService.insertUser(user);
 //                userMapper.insert(user);
                 Result result=ResultFactory.buildFailResult("注册成功");
                 return result;
@@ -109,6 +109,22 @@ public class UserController {
         }
     }
     /**
+     * 更新
+     * @param user
+     * @return
+     */
+    @PostMapping(value = "/userupdate")
+    public Result updateInfo(@RequestBody User user){
+        log.info("\n-------------------Method : register--------------------\n");
+        try{
+            userService.updateUser(user);
+        }catch (Exception e){
+            log.info(e.getMessage());
+            Result result=ResultFactory.buildFailResult(e.getMessage());
+        }
+        return ResultFactory.buildSuccessResult("更新用户信息成功");
+    }
+    /**
      * 修改密码
      * @return
      */
@@ -117,11 +133,11 @@ public class UserController {
         log.info("\n-------------------Method : getLostPassword--------------------\n");
         try{
             String oldPwd  = TFM.md5(userDto.getOldPassword());
-            User user = userMapper.checkByAccountAndPwd(userDto.getAccount(),oldPwd);
+            User user = userService.checkByAccountAndPwd(userDto.getAccount(),oldPwd);
             if (null != user){
                 String newPwd = TFM.md5(userDto.getNewPassword());
                 user.setPassword(newPwd);
-                userMapper.update(user);
+                userService.updateUser(user);
             }
             securityService.deleteToken(userDto.getToken());
         }catch (Exception se){

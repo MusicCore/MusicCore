@@ -60,9 +60,9 @@ public class TransactionAdviceConfig {
         txMap.put("update*",requireRule);
         txMap.put("delete*",requireRule);
         txMap.put("remove*",requireRule);
-        txMap.put("get*",readOnlyRule);
-        txMap.put("query*", readOnlyRule);
-        txMap.put("find*", readOnlyRule);
+        txMap.put("*",readOnlyRule);
+//        txMap.put("query*", readOnlyRule);
+//        txMap.put("find*", readOnlyRule);
         txMap.put("select*",readOnlyRule);
         source.setNameMap(txMap);
         TransactionInterceptor txAdvice=new TransactionInterceptor(transactionManager, source);

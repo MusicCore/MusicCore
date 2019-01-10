@@ -32,11 +32,11 @@ public class LoginController {
     /**
      * 登入
      * @param user
-     * @param model
+     * @param
      * @return
      */
     @PostMapping(value = "/login")
-    public Object login(@RequestBody User user, Model model, HttpServletRequest request){
+    public Object login(@RequestBody User user, HttpServletRequest request){
         log.info("\n-------------------Method : login--------------------\n");
         try{
             //账号密码认证成功之后创建用户令牌时间为20分钟。并存入redis里

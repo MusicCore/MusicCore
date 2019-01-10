@@ -3,11 +3,13 @@ package com.wjk.sstm.service.impl;
 import com.wjk.sstm.dto.UserDto;
 import com.wjk.sstm.mapper.UserMapper;
 import com.wjk.sstm.model.User;
+import com.wjk.sstm.service.UserService;
 import com.wjk.sstm.until.TFM;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -15,8 +17,8 @@ import javax.servlet.http.HttpSession;
 @Service("SecurityService")
 public class SecurityServiceImpl {
 
-    @Autowired
-    private UserMapper userMapper;
+    @Resource(name = "userService")
+    private UserService userService;
     @Autowired
     private TokenServiceImpl tokenService;
 
@@ -27,7 +29,7 @@ public class SecurityServiceImpl {
         User user = new User();
         user.setAccount(account);
         user.setPassword(password);
-        User dto =  userMapper.selectByAccountAndPwd(user);
+        User dto =  userService.selectByAccountAndPwd(user);
         checkAuth(dto);
         HttpSession session = request.getSession();
         String userAgent = request.getHeader("user-agent");

@@ -4,5 +4,9 @@
     <settings>
         <!-- 打印SQL语句到控制台 STDOUT_LOGGING是可以显示sql -->
         <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <!--开启驼峰映射-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!-- 在null时也调用 setter,适应于返回Map,3.2版本以上可用 -->
+        <setting name="callSettersOnNulls" value="true"/>
     </settings>
 </configuration>

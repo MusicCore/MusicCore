@@ -15,8 +15,8 @@ public class Music {
     private String createTime;
     private String updateTime;
     private String lastAuthor;
-    private String isModify;
-    private String isTop;
-    private String isDelete;
-    private String clicks;
+    private Integer isModify;
+    private Integer isTop;
+    private Integer isDelete;
+    private Integer clicks;
 }
