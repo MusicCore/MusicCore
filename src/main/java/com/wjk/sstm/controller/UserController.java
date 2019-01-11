@@ -3,6 +3,7 @@ package com.wjk.sstm.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.wjk.sstm.dto.UserDto;
 import com.wjk.sstm.mapper.UserMapper;
+import com.wjk.sstm.model.CommonContext;
 import com.wjk.sstm.model.User;
 import com.wjk.sstm.service.UserService;
 import com.wjk.sstm.service.impl.SecurityServiceImpl;
@@ -65,6 +66,7 @@ public class UserController {
     @PostMapping(value = "/info")
     public Object getUserInfo(@RequestParam String account){
         log.info("\n-------------------Method : 取得"+account+"信息--------------------\n");
+        log.info("preHandle : 登录用户  :"+ CommonContext.getInstance().getAccount());
         try {
             User user = userService.listUserbyAccount(account);
             JSONObject object = new JSONObject();

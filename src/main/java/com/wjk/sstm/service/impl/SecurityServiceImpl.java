@@ -1,8 +1,9 @@
 package com.wjk.sstm.service.impl;
 
+import com.wjk.sstm.dto.CommonContextDto;
 import com.wjk.sstm.dto.UserDto;
-import com.wjk.sstm.mapper.UserMapper;
 import com.wjk.sstm.model.User;
+import com.wjk.sstm.model.CommonContext;
 import com.wjk.sstm.service.UserService;
 import com.wjk.sstm.until.TFM;
 import org.springframework.beans.BeanUtils;
@@ -22,7 +23,7 @@ public class SecurityServiceImpl {
     @Autowired
     private TokenServiceImpl tokenService;
 
-    public String createUserContext(String account,String password,HttpServletRequest request) throws Exception {
+    public CommonContextDto createUserContext(String account,String password,HttpServletRequest request) throws Exception {
         if (account==null || password==null)
             throw new Exception("账号密码不为空");
         password = TFM.md5(password);
@@ -34,17 +35,27 @@ public class SecurityServiceImpl {
         HttpSession session = request.getSession();
         String userAgent = request.getHeader("user-agent");
         String token = tokenService.generateToken(userAgent,account);
-        tokenService.saveToken(account,token,session);
+        tokenService.saveToken(dto.getId().toString(),token,session);
         UserDto dto1 = new UserDto();
         BeanUtils.copyProperties(dto,dto1);
         dto1.setToken(token);
-        return token;
+        return saveContext(dto1);
     }
 
-    public void checkAuth(User dto) throws Exception{
+    private CommonContextDto saveContext(UserDto dto){
+        CommonContextDto context = new CommonContextDto();
+        context.setAccount(dto.getAccount());
+        context.setName(dto.getName());
+        context.setRoles(dto.getRoles());
+        context.setToken(dto.getToken());
+        return context;
+    }
+
+    private void checkAuth(User dto) throws Exception{
         // 判断是否有登陆权限
         if (dto == null)
             throw new Exception("用户名、密码不正确");
+        //存储用户信息
     }
 
     public void deleteToken(String key){

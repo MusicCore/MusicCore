@@ -1,9 +1,11 @@
 package com.wjk.sstm.service.impl;
 
+import com.wjk.sstm.dto.UserDto;
 import com.wjk.sstm.mapper.MusicMapper;
 import com.wjk.sstm.mapper.UserMapper;
 import com.wjk.sstm.model.User;
 import com.wjk.sstm.service.UserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +50,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void checkIsHaveAccount(User user) throws Exception {
         userMapper.selectIsHaveAccount(user);
+    }
+
+    @Override
+    public UserDto selectUserById(String uid) throws Exception {
+        User user = userMapper.selectUserById(Integer.valueOf(uid));
+        UserDto dto = new UserDto();
+        BeanUtils.copyProperties(user,dto);
+        return dto;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.wjk.sstm.service;
 
+import com.wjk.sstm.dto.UserDto;
 import com.wjk.sstm.model.User;
 
 import java.util.List;
@@ -58,4 +59,12 @@ public interface UserService {
      * @throws Exception
      */
     public void checkIsHaveAccount(User user) throws Exception;
+
+    /**
+     *
+     * @param
+     * @return
+     * @throws Exception
+     */
+    public UserDto selectUserById(String uid) throws Exception;
 }

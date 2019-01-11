@@ -20,6 +20,8 @@ public interface UserMapper {
 
     public int selectIsHaveAccount(User user) throws Exception;
 
+    public User selectUserById(Integer id) throws Exception;
+
     public String selectPwdByAccount(User user) throws Exception;
 
     public User checkAP(String account,String password) throws Exception;

@@ -1,6 +1,8 @@
 package com.wjk.sstm.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wjk.sstm.dto.CommonContextDto;
+import com.wjk.sstm.model.CommonContext;
 import com.wjk.sstm.model.User;
 import com.wjk.sstm.service.impl.SecurityServiceImpl;
 import com.wjk.sstm.until.Result;
@@ -40,9 +42,9 @@ public class LoginController {
         log.info("\n-------------------Method : login--------------------\n");
         try{
             //账号密码认证成功之后创建用户令牌时间为20分钟。并存入redis里
-            String taken = securityService.createUserContext(user.getAccount(),user.getPassword(),request);
+            CommonContextDto commonContext = securityService.createUserContext(user.getAccount(),user.getPassword(),request);
             JSONObject object = new JSONObject();
-            object.put("token",taken);
+            object.put("commonContext",commonContext);
             //          createUserContext里已经存了taken了
 //          redisTemplate.opsForValue().set(taken,user.getAccount(),6, TimeUnit.HOURS);//以token为key，用户账号为值设置6小时过期时间
             Result result= ResultFactory.buildSuccessResult(object);

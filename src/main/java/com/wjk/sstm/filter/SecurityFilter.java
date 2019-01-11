@@ -1,5 +1,10 @@
 package com.wjk.sstm.filter;
 
+import com.wjk.sstm.dto.CommonContextDto;
+import com.wjk.sstm.dto.UserDto;
+import com.wjk.sstm.dto.dto;
+import com.wjk.sstm.model.CommonContext;
+import com.wjk.sstm.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +12,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,6 +24,10 @@ public class SecurityFilter implements HandlerInterceptor {
     private final static Logger log = LoggerFactory.getLogger(SecurityFilter.class);
     @Autowired
     private StringRedisTemplate redisTemplate;
+
+    @Resource(name = "userService")
+    private UserService userService;
+
     //    @Resource
 //    private RedisUtils redisUtils;
 //    在请求处理之前进行调用（Controller方法调用之前)
@@ -30,6 +41,9 @@ public class SecurityFilter implements HandlerInterceptor {
         if(token != null){
             System.out.println(redisTemplate.opsForValue().get(token));
             if(redisTemplate.opsForValue().get(token) != null) {
+                String uid = redisTemplate.opsForValue().get(token);
+                UserDto dto = userService.selectUserById(uid);
+                saveContext(dto);
                 return true;
             }else{
                 response.sendRedirect("/api/token_expire");
@@ -37,6 +51,14 @@ public class SecurityFilter implements HandlerInterceptor {
             }
         }
         return false;
+    }
+
+    private void saveContext(UserDto dto){
+        CommonContext context = new CommonContext();
+        context.setAccount(dto.getAccount());
+        context.setName(dto.getName());
+        context.setRoles(dto.getRoles());
+        CommonContext.setInstance(context);
     }
 
     //    该方法将在请求处理之后，也就是在Controller 方法调用之后被调用，但是会在视图返回被渲染之前被调用

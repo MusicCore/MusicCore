@@ -47,6 +47,10 @@
     <select id="selectIsHaveAccount" resultType="java.lang.Integer" parameterType="java.lang.String">
         SELECT 1 FROM user WHERE account = #{account, jdbcType=VARCHAR}
     </select>
+    <!---->
+    <select id="selectUserById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
     <!--根据账号找回密码-->
     <select id="selectPwdByAccount" resultType="java.lang.String" parameterType="java.lang.String">
         SELECT password FROM user WHERE account = #{account, jdbcType=VARCHAR}
