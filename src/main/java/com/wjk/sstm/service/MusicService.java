@@ -19,4 +19,19 @@ public interface MusicService {
      * @throws Exception
      */
     public List<Music> listMusic() throws Exception;
+
+    /**
+     * 查询
+     * @return
+     * @throws Exception
+     */
+    public Music listMusicById(Integer id) throws Exception;
+
+    /**
+     * 更新
+     * @param music
+     * @throws Exception
+     */
+    public void  updateMusicInfoById(Music music) throws Exception;
+
 }

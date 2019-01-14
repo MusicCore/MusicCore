@@ -58,6 +58,7 @@ public class SecurityFilter implements HandlerInterceptor {
         context.setAccount(dto.getAccount());
         context.setName(dto.getName());
         context.setRoles(dto.getRoles());
+        context.setAvatar(dto.getAvatar());
         CommonContext.setInstance(context);
     }
 

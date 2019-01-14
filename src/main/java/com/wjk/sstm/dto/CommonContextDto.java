@@ -11,5 +11,7 @@ public class CommonContextDto {
 
     private String name;
 
+    private String avatar;
+
     private String token;
 }

@@ -1,6 +1,7 @@
 package com.wjk.sstm.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wjk.sstm.model.CommonContext;
 import com.wjk.sstm.model.Music;
 import com.wjk.sstm.model.listQuery;
 import com.wjk.sstm.service.MusicService;
@@ -23,11 +24,53 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "api/article")
 public class MusicController {
-
     private final static Logger log = LoggerFactory.getLogger(MusicController.class);
+
     @Resource(name = "musicService")
     private MusicService musicService;
 
+    /**
+     * 获取修改页面信息
+     * @param id
+     * @return
+     */
+    @GetMapping(value = "/detail")
+    public Result musicEidt(@RequestParam Integer id) {
+        log.info("------------method:musicEidt-------------");
+        try {
+            Music music = musicService.listMusicById(id);
+            JSONObject object = new JSONObject();
+            object.put("data",music);
+            return  ResultFactory.buildSuccessResult(object);
+        }catch (Exception e) {
+            log.info("简谱查询错误："+e.getMessage());
+            return ResultFactory.buildFailResult(e.getMessage());
+        }
+    }
+
+    /**
+     * 更新
+     * @param music
+     * @return
+     */
+    @PostMapping(value = "/update")
+    public Result musicUpdate(@RequestBody Music music){
+        log.info("------------method:musicUpdate-------------");
+        try {
+            musicService.updateMusicInfoById(music);
+            return  ResultFactory.buildSuccessResult("");
+        }catch (Exception e){
+            log.info("简谱更新错误："+e.getMessage());
+            return ResultFactory.buildFailResult(e.getMessage());
+        }
+    }
+
+    /**
+     * 获取信息
+     * @param page
+     * @param limit
+     * @return
+     */
     @GetMapping(value = "/list")
     public Result musicList(@RequestParam Integer page,@RequestParam Integer limit){
         log.info("------------method:musicList-------------");
@@ -67,17 +110,18 @@ public class MusicController {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd  HH:mm:ss");
         Date date = new Date();
         if(null==music.getAuthorAccount())
-            music.setAuthorAccount("admin");
+            music.setAuthorAccount(CommonContext.getInstance().getAccount());
         if(null==music.getAuthorName())
-            music.setAuthorName("admin");
+            music.setAuthorName(CommonContext.getInstance().getName());
         if(null==music.getContentImg())
             music.setContentImg("/");
         if(null==music.getCreateTime())
             music.setCreateTime(format.format(date));
         if(null==music.getContentShort())
-            music.setContentShort(" ");
+            music.setContentShort("");
         return music;
     }
+
 }
 
 

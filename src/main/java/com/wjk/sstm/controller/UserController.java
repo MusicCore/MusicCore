@@ -66,13 +66,12 @@ public class UserController {
     @PostMapping(value = "/info")
     public Object getUserInfo(@RequestParam String account){
         log.info("\n-------------------Method : 取得"+account+"信息--------------------\n");
-        log.info("preHandle : 登录用户  :"+ CommonContext.getInstance().getAccount());
         try {
             User user = userService.listUserbyAccount(account);
             JSONObject object = new JSONObject();
-            object.put("name",user.getName());
-            object.put("avatar",user.getAvatar());
-            String [] roles = {user.getRoles()};
+            object.put("name",CommonContext.getInstance().getName());
+            object.put("avatar",CommonContext.getInstance().getAvatar());
+            String [] roles = {CommonContext.getInstance().getRoles()};
             object.put("roles",roles);//返回数组格式权限
             Result result=ResultFactory.buildSuccessResult(object);
             return result;

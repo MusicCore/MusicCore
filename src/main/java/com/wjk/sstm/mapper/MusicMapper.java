@@ -1,9 +1,8 @@
 package com.wjk.sstm.mapper;
 
 import com.wjk.sstm.model.Music;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import com.wjk.sstm.provider.MusicProvider;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -48,4 +47,10 @@ public interface MusicMapper {
 
     @Select("SELECT * FROM music_score")
     public List<Music> list() throws Exception;
+
+    @Select("SELECT * FROM music_score WHERE id = #{id}")
+    public Music listById(Integer id) throws Exception;
+
+    @UpdateProvider(type = MusicProvider.class, method = "updateSQL")
+    public void  update(Music param) throws Exception;
 }
