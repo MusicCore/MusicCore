@@ -1,6 +1,7 @@
 package com.wjk.sstm.mapper;
 
 import com.wjk.sstm.model.Music;
+import com.wjk.sstm.model.PageForm;
 import com.wjk.sstm.provider.MusicProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -53,4 +54,7 @@ public interface MusicMapper {
 
     @UpdateProvider(type = MusicProvider.class, method = "updateSQL")
     public void  update(Music param) throws Exception;
+
+    @Select("SELECT * FROM music_score limit #{page.pageStart},#{page.rows}")
+    public List<Music> listByPar(@Param("page") PageForm pageForm);
 }

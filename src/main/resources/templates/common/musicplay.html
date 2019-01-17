@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="musicPlay(musicUrl)">
+    <link th:href="@{/static/css/jplayer/audioplay.css}" rel="stylesheet"/>
+    <link th:href="@{/static/css/jplayer/main.css}" rel="stylesheet"/>
+    <script th:src="@{/static/js/jplayer/audioplayer.js}" type="text/javascript"></script>
+    <audio th:src="${musicUrl}" controlsList="nodownload" controls="controls">
+        肥肠抱歉，您的浏览器不支持audio音频播放！请考虑更换浏览器！
+    </audio>
+</div>
+</body>
+</html>

@@ -6,109 +6,133 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" >
-    <!-- 新 Bootstrap 核心 CSS 文件 -->
-    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <style>
+<style>
         html,body{
             width:100%;
             height:100%
         }
         body{
             font-family: "华文细黑";
-            background:url("../static/img/jsw/p_big3.jpg") no-repeat;
-            background-size: 100%;
+            /*background:url("../static/img/body-img/7.jpg") no-repeat;*/
+            /*background-size: 100%;*/
         }
     </style>
     <title>首页</title>
 </head>
 <body>
+<div class="wrapper">
 <div class="container">
-    <div class="row clearfix">
-        <div class="col-md-12 column">
-            <nav class="navbar navbar-default" role="navigation">
-                <div class="navbar-header">
-                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">首页</a>
-                </div>
-
-                <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
-                    <form class="navbar-form navbar-left" role="search">
-                        <div class="form-group">
-                            <input class="form-control" type="text" />
-                        </div> <button class="btn btn-default" type="submit">搜索</button>
-                    </form>
-                    <ul class="nav navbar-nav navbar-right">
-                    </ul>
-                </div>
-            </nav>
-            <!--<div class="jumbotron">-->
-                <!--<img class="img-responsive" th:src="@{/static/img/jsw/p_big3.jpg}" />-->
-            <!--</div>-->
-        </div>
-    </div>
+<div th:include="common/navbar::navbar"></div>
     <div  class="row clearfix">
-        <div   class="col-md-12 column">
-            <div  class="row">
-                <div th:each="item:${musiclist}" class="col-md-4">
-                    <div class="thumbnail">
-                        <img class="img-responsive" th:src="@{/static/img/jsw/p_big3.jpg}" />
-                        <div class="caption">
-                            <p>
-                                 <a th:text="${item.title}" class="btn" href="#"></a>
-                            </p>
+        <div   class="col-md-8 column">
+            <!--<div th:include="common/musiclist::musicList"></div>-->
+            <div th:fragment="musicList" id="musicList" class="row">
+                <div th:each="item:${musiclist}" class="col-md-12 column">
+                    <div class="panel panel-primary touming"  >
+                        <div class="media panel-body ">
+                            <div class="media-left">
+                                <img th:src="${item.contentImg}" class="media-object" style="width:220px"/>
+                            </div>
+                            <div class="media-body">
+                                <h3 th:text="${item.title}" class="media-heading"></h3>
+                                <span><p th:text="${item.contentShort}"></p></span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div mar>
-                <ul  class="pagination">
-                    <li>
-                        <a href="#">首页</a>
-                    </li>
-                    <li>
-                        <a href="#">上一页</a>
-                    </li>
-                    <li>
-                        <a href="#">1</a>
-                    </li>
-                    <li>
-                        <a href="#">2</a>
-                    </li>
-                    <li>
-                        <a href="#">3</a>
-                    </li>
-                    <li>
-                        <a href="#">4</a>
-                    </li>
-                    <li>
-                        <a href="#">5</a>
-                    </li>
-                    <li>
-                        <a href="#">下一页</a>
-                    </li>
-                </ul>
             </div>
+
+        <div class="col-md-4 column hidden-xs">
+            <div id="music_info"  class="panel panel-default touming">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        music.title
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <span>作者：<a href="url?author_account=">author_name</a></span><br/>
+                    <span>创建时间：<p>我是创建时间</p></span><br/>
+                    <span>修改时间：update_time，修改人：last_author</span>
+                </div>
+            </div>
+        </div>
         </div>
     </div>
 </div>
+</div>
+<div th:include="common/backgroundimg::backGroundImg"></div>
+
 </body>
 <script>
-    $(document).ready(function() {
-        console.log("text");
+    //鼠标滚动到页面最底部加载数据
+    var documentHeight = [0];
+    var pageStart = 2;
+    var music_info = $('#music_info');
+    var music_info_top = music_info.offset().top;//元素到页面顶部的距离
+    $(window).bind("scroll",function() {
+        if($(document).scrollTop() + $(window).height() > $(document).height()-1){
+            documentHeight.push($(document).height())
+            if(documentHeight[documentHeight.length-1]>documentHeight[documentHeight.length-2]){
+                documentHeight[documentHeight.length-2] = documentHeight[documentHeight.length-2] + documentHeight[documentHeight.length-1];
+                console.log("我在底部")
+                listMusic();
+                pageStart++
+                console.log(pageStart)
+            }
+        }else{
+            console.log("我bu在底部")
+        }
+        if($(document).scrollTop() > music_info_top){
+            music_info.addClass("fixed");
+        }else{
+            music_info.removeClass("fixed");
+        }
     })
+    $(document).ready(function() {
+        // console.log("text");
+        // listMusic();
+        // $('#musicList').load("/music/musiclist?pageStart=2&rows=5");
+    })
+    function showInfo(item) {
+        console.log(item)
+    }
     function listMusic(){
         $.ajax({
-            url :  "/pre/list",
+            url :  "/music/musiclist",
             type : "GET",
             dataType:"json",
+            data: {"pageStart":pageStart,"rows":5},
             success:function(result) {
-                var userlist = result;
-                console.log(userlist);
+                if(result.data==null) {console.log("无更多数据")}
+                $.each(result.data,function (i,value) {
+                    $('#musicList').append("<div class=\"col-md-12 column\" onfocus='showInfo(value)'>\n" +
+                        "    <div class=\"panel panel-primary touming\"  >\n" +
+                        "        <div class=\"media panel-body \">\n" +
+                        "            <div class=\"media-left\">\n" +
+                        "                <img src='"+ value.contentImg +"' class=\"media-object\" style=\"width:220px\"/>\n" +
+                        "            </div>\n" +
+                        "            <div class=\"media-body\">\n" +
+                        "                <h3 class=\"media-heading\">"+value.title+"</h3>\n" +
+                        "                <span><p>"+value.contentShort+"</p></span>\n" +
+                        "            </div>\n" +
+                        "        </div>\n" +
+                        "    </div>\n" +
+                        "</div>")
+                })
             }
         })
     }
 </script>
+<style>
+    .fixed {position:fixed;top:10px;margin-top:0;}
+    span p {
+        font-family: "宋体","仿宋",sans-serif;
+        font-size:200%;
+        font-style: normal;
+    }
+    .touming{
+        background-color:rgba(255, 255, 255, 0.5);
+    }
+</style>
 </html>

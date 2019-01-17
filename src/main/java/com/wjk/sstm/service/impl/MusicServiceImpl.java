@@ -4,6 +4,7 @@ import com.sun.org.apache.bcel.internal.generic.NEW;
 import com.wjk.sstm.mapper.MusicMapper;
 import com.wjk.sstm.model.CommonContext;
 import com.wjk.sstm.model.Music;
+import com.wjk.sstm.model.PageForm;
 import com.wjk.sstm.service.MusicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,5 +40,10 @@ public class MusicServiceImpl implements MusicService {
         }else {
             throw new Exception("无权更新");
         }
+    }
+
+    @Override
+    public List<Music> listMusicByPar(PageForm pageForm) {
+        return musicMapper.listByPar(pageForm);
     }
 }

@@ -1,6 +1,7 @@
 package com.wjk.sstm.service;
 
 import com.wjk.sstm.model.Music;
+import com.wjk.sstm.model.PageForm;
 
 import java.util.List;
 
@@ -33,5 +34,12 @@ public interface MusicService {
      * @throws Exception
      */
     public void  updateMusicInfoById(Music music) throws Exception;
+
+    /**
+     * 通过分页查询（其他参数待加
+     * @param pageForm
+     * @return
+     */
+    public List<Music>  listMusicByPar(PageForm pageForm);
 
 }

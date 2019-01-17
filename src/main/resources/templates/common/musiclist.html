@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="musicList" class="row">
+    <div th:each="item:${musiclist}" class="col-md-12 column">
+        <div class="panel panel-primary touming"  >
+            <div class="media panel-body ">
+                <!--<button th:onclick="'javascript:showInfo('+${item.title}+')' ">asdwqdq</button>-->
+                <div class="media-left">
+                    <img th:src="${item.contentImg}" class="media-object" style="width:220px"/>
+                </div>
+                <div class="media-body">
+                    <h3 th:text="${item.title}" class="media-heading"></h3>
+                    <span><p th:text="${item.contentShort}">这是一些示例文本。</p></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
