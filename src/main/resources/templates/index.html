@@ -31,7 +31,7 @@
                     <div class="panel panel-primary touming"  >
                         <div class="media panel-body ">
                             <div class="media-left">
-                                <img th:src="${item.contentImg}" class="media-object" style="width:220px"/>
+                                <img th:onclick="a([[${item}]]);" th:src="${item.contentImg}" class="media-object" style="width:220px"/>
                             </div>
                             <div class="media-body">
                                 <h3 th:text="${item.title}" class="media-heading"></h3>
@@ -95,6 +95,12 @@
         // $('#musicList').load("/music/musiclist?pageStart=2&rows=5");
     })
     function showInfo(item) {
+        console.log(item)
+    }
+    function c() {
+        console.log("aa");
+    }
+    function a(item) {
         console.log(item)
     }
     function listMusic(){
