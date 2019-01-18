@@ -37,7 +37,4 @@ public class DisPathController {
     public String goMsusicserch(){ return "musicserch.html";}
 
 
-    @GetMapping(value = "/music/musicdetail")
-    public String goMusicdetail(){ return "musicdetail.html";}
-
 }

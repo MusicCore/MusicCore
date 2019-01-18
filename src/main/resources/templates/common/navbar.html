@@ -2,9 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <div th:fragment="navbar">
-    <link id="theme" th:href="@{/static/css/bootstrap.css}" rel="stylesheet"/>
-    <script th:src="@{/static/js/jquery-2.1.1.js}" type="text/javascript"></script>
-    <script th:src="@{/static/js/bootstrap.js}" type="text/javascript"></script>
+    <link id="theme" th:href="@{/static/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link  th:href="@{/static/bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet"/>
+    <script th:src="@{/static/js/jquery-2.1.1.min.js}" type="text/javascript"></script>
+    <script th:src="@{/static/bootstrap/js/bootstrap.min.js}" type="text/javascript"></script>
     <!--<div class="container">-->
     <div class="row clearfix">
         <div class="col-md-12 column">
@@ -46,6 +47,21 @@
         </div>
     <!--</div>-->
 </div>
+    <script>
+        function changeTheme(theme) {
+            switch (theme) {
+                case 'origin':
+                    console.log("origin")
+                    $( "#theme" ).css("href","/static/css/bootstrap.css");
+                    break;
+                case 'sketchy':
+                    console.log("sketchy")
+                    $( "#theme" ).css("href","/static/css/bootstrap.sketchy.min.css");
+                    console.log("sketchy1")
+                    break;
+            }
+        }
+    </script>
 </div>
 </body>
 </html>
