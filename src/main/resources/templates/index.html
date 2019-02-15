@@ -12,6 +12,17 @@
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        html,body{
+            width:100%;
+            height:100%
+        }
+        body{
+            font-family: "华文细黑";
+            background:url("../static/img/jsw/p_big3.jpg") no-repeat;
+            background-size: 100%;
+        }
+    </style>
     <title>首页</title>
 </head>
 <body>
@@ -33,80 +44,71 @@
                     </ul>
                 </div>
             </nav>
-            <div class="jumbotron">
-                <p>
-                    放个背景图吧
-                </p>
-            </div>
+            <!--<div class="jumbotron">-->
+                <!--<img class="img-responsive" th:src="@{/static/img/jsw/p_big3.jpg}" />-->
+            <!--</div>-->
         </div>
     </div>
-    <div class="row clearfix">
-        <div class="col-md-12 column">
-            <div class="row">
-                <div class="col-md-4">
+    <div  class="row clearfix">
+        <div   class="col-md-12 column">
+            <div  class="row">
+                <div th:each="item:${musiclist}" class="col-md-4">
                     <div class="thumbnail">
-                        <img class="img-responsive"  alt="300x200" src="v3/default4.jpg" />
+                        <img class="img-responsive" th:src="@{/static/img/jsw/p_big3.jpg}" />
                         <div class="caption">
                             <p>
-                                上面图片中间描述下面链接
-                            <p>
-                                <a class="btn btn-primary" href="#">Action</a> <a class="btn" href="#">Action</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="thumbnail">
-                        <img alt="300x200" src="v3/default5.jpg" />
-                        <div class="caption">
-                            <p>
-                                上面图片中间描述下面链接
-                            </p>
-                            <p>
-                                <a class="btn btn-primary" href="#">Action</a> <a class="btn" href="#">Action</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="thumbnail">
-                        <img alt="300x200" src="v3/default6.jpg" />
-                        <div class="caption">
-                            <p>
-                               上面图片中间描述下面链接
-                            </p>
-                            <p>
-                                <a class="btn btn-primary" href="#">Action</a> <a class="btn" href="#">Action</a>
+                                 <a th:text="${item.title}" class="btn" href="#"></a>
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
-            <ul class="pagination">
-                <li>
-                    <a href="#">Prev</a>
-                </li>
-                <li>
-                    <a href="#">1</a>
-                </li>
-                <li>
-                    <a href="#">2</a>
-                </li>
-                <li>
-                    <a href="#">3</a>
-                </li>
-                <li>
-                    <a href="#">4</a>
-                </li>
-                <li>
-                    <a href="#">5</a>
-                </li>
-                <li>
-                    <a href="#">Next</a>
-                </li>
-            </ul>
+            <div mar>
+                <ul  class="pagination">
+                    <li>
+                        <a href="#">首页</a>
+                    </li>
+                    <li>
+                        <a href="#">上一页</a>
+                    </li>
+                    <li>
+                        <a href="#">1</a>
+                    </li>
+                    <li>
+                        <a href="#">2</a>
+                    </li>
+                    <li>
+                        <a href="#">3</a>
+                    </li>
+                    <li>
+                        <a href="#">4</a>
+                    </li>
+                    <li>
+                        <a href="#">5</a>
+                    </li>
+                    <li>
+                        <a href="#">下一页</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
 </body>
+<script>
+    $(document).ready(function() {
+        console.log("text");
+    })
+    function listMusic(){
+        $.ajax({
+            url :  "/pre/list",
+            type : "GET",
+            dataType:"json",
+            success:function(result) {
+                var userlist = result;
+                console.log(userlist);
+            }
+        })
+    }
+</script>
 </html>
